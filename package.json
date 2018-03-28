@@ -1,0 +1,35 @@
+{
+  "name": "react-template",
+  "version": "1.0.0",
+  "description": "react template for myself",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node config/dev.js",
+    "build": "node config/prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acgotaku/react-template.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "acgotaku",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/acgotaku/react-template/issues"
+  },
+  "homepage": "https://github.com/acgotaku/react-template#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
