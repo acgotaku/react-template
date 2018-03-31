@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const flexbugs = require('postcss-flexbugs-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const resolvePath = (...args) => path.resolve(ROOT_DIR, ...args);
@@ -41,7 +40,6 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin([BUILD_DIR]),
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
