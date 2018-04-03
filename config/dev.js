@@ -1,25 +1,33 @@
 process.env.NODE_ENV = 'development';
 
 const express = require('express');
+const opn = require('opn');
 const webpack = require('webpack');
 
 const app = express();
-const config = require('./webpack.dev.js');
+const config = require('./config.js');
+const webpackConfig = require('./webpack.dev.js');
 
-const compiler = webpack(config);
+const compiler = webpack(webpackConfig);
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
+const DEFAULT_PORT = parseInt(process.env.PORT, 10) || config.dev.port;
 const HOST = process.env.HOST || '0.0.0.0';
 
+const uri = `http://localhost:${DEFAULT_PORT}`;
+const history = require('connect-history-api-fallback');
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath,
+  publicPath: webpackConfig.output.publicPath,
   quiet: true,
 });
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
 });
+
+// handle fallback for HTML5 history API
+app.use(history());
+
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
 app.use(devMiddleware);
@@ -29,5 +37,8 @@ app.use(hotMiddleware);
 // Serve the files on port 3000.
 app.listen(DEFAULT_PORT, HOST, () => {
   // eslint-disable-next-line
-  console.log(`Example app listening on ${HOST}!\n`);
+  console.log(`> Listening at http://localhost:${DEFAULT_PORT}!\n`);
+  if (config.dev.autoOpenBrowser) {
+    opn(uri);
+  }
 });
