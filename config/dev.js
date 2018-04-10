@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development';
 
 const express = require('express');
 const opn = require('opn');
+const chalk = require('chalk');
 const webpack = require('webpack');
 
 const app = express();
@@ -24,6 +25,12 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
 });
+// force page reload when html-webpack-plugin template changes
+compiler.plugin('compilation', (compilation) => {
+  compilation.plugin('html-webpack-plugin-after-emit', () => {
+    hotMiddleware.publish({ action: 'reload' });
+  });
+});
 
 // handle fallback for HTML5 history API
 app.use(history());
@@ -37,7 +44,7 @@ app.use(hotMiddleware);
 // Serve the files on port 3000.
 app.listen(DEFAULT_PORT, HOST, () => {
   // eslint-disable-next-line
-  console.log(`> Listening at http://localhost:${DEFAULT_PORT}!\n`);
+  console.log(`> Listening at http://localhost:${chalk.bold(DEFAULT_PORT)}!\n`);
   if (config.dev.autoOpenBrowser) {
     opn(uri);
   }

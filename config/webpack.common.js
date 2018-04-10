@@ -17,7 +17,7 @@ const publicPath = '/';
 module.exports = {
   entry: {
     polyfills: path.join(SRC_DIR, 'polyfills.js'),
-    app: path.join(SRC_DIR, 'index.jsx'),
+    app: path.join(SRC_DIR, 'index.js'),
     vendor: [
       'react',
       'react-dom',
@@ -43,8 +43,7 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      filename: 'index.html',
-      template: path.join(ROOT_DIR, 'index.html'),
+      template: path.join(SRC_DIR, 'assets/index.html'),
     }),
   ],
   optimization: {
