@@ -43,7 +43,9 @@ module.exports = {
     new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       inject: true,
-      template: path.join(SRC_DIR, 'assets/index.html'),
+      filename: 'index.html',
+      path: path.resolve(SRC_DIR, 'assets'),
+      template: path.resolve(SRC_DIR, 'assets/index.html'),
     }),
   ],
   optimization: {

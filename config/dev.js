@@ -24,11 +24,13 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
+  publicPath: '/',
 });
 // force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', (compilation) => {
-  compilation.plugin('html-webpack-plugin-after-emit', () => {
+compiler.hooks.done.tap('compilation', (compilation) => {
+  compilation.plugin('html-webpack-plugin-after-emit', (data, cb) => {
     hotMiddleware.publish({ action: 'reload' });
+    cb();
   });
 });
 
