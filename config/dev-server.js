@@ -24,7 +24,6 @@ const devMiddleware = require('webpack-dev-middleware')(compiler, {
 
 const hotMiddleware = require('webpack-hot-middleware')(compiler, {
   log: () => {},
-  publicPath: '/',
 });
 // force page reload when html-webpack-plugin template changes
 compiler.hooks.done.tap('compilation', (compilation) => {

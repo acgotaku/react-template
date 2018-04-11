@@ -4,8 +4,8 @@
   "description": "react template for myself",
   "main": "index.js",
   "scripts": {
-    "start": "node config/dev.js",
-    "dev": "node config/dev.js",
+    "start": "node config/dev-server.js",
+    "dev": "node config/dev-server.js",
     "build": "node config/prod.js"
   },
   "repository": {
