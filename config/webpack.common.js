@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const flexbugs = require('postcss-flexbugs-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
 const resolvePath = (...args) => path.resolve(ROOT_DIR, ...args);
@@ -47,6 +48,7 @@ module.exports = {
       path: path.resolve(SRC_DIR, 'assets'),
       template: path.resolve(SRC_DIR, 'assets/index.html'),
     }),
+    new ExtractTextPlugin('style.css'),
   ],
   optimization: {
     splitChunks: {
@@ -109,45 +111,45 @@ module.exports = {
           // in development "style" loader enables hot editing of CSS.
           {
             test: /\.(css|scss|sass)$/,
-            use: [
-              {
-                loader: 'style-loader',
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1,
-                  sourceMap: true,
+            use: ExtractTextPlugin.extract({
+              fallback: 'style-loader',
+              use: [
+                {
+                  loader: 'css-loader',
+                  options: {
+                    importLoaders: 1,
+                    sourceMap: true,
+                  },
                 },
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  sourceMap: true,
-                  plugins: () => [
-                    flexbugs,
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    // Necessary for external CSS imports to work
+                    // https://github.com/facebookincubator/create-react-app/issues/2677
+                    ident: 'postcss',
+                    sourceMap: true,
+                    plugins: () => [
+                      flexbugs,
+                      autoprefixer({
+                        browsers: [
+                          '>1%',
+                          'last 4 versions',
+                          'Firefox ESR',
+                          'not ie < 9', // React doesn't support IE8 anyway
+                        ],
+                        flexbox: 'no-2009',
+                      }),
+                    ],
+                  },
                 },
-              },
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: true,
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sourceMap: true,
+                  },
                 },
-              },
-            ],
+              ],
+            }),
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
